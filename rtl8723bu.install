@@ -1,0 +1,31 @@
+rebuild_module_dependencies() {
+    EXTRAMODULES=$(find /usr/lib/modules -type d -iname 6.1.7*xanmod* | rev | cut -d "/" -f1 | rev)
+    depmod $(find /usr/lib/modules -type d -iname 6.1.7*xanmod* | rev | cut -d "/" -f1 | rev)
+}
+
+check_kernel() {
+    [[ -e /lib/modules/$(uname -a | cut -d" " -f3)/extramodules/8723bu.ko.gz ]] && MODULE=TRUE || MODULE=FALSE
+}    
+
+post_install() {
+    rebuild_module_dependencies
+    echo '>>> The module rtl8723bu conflicts with rtl8xxxu.'
+    echo '>>> rtl8xxxu has been blacklisted using \`/etc/modprobe.d/blacklist_rtlxxxu.conf\`'
+    check_kernel
+    [[ $MODULE ]] || modprobe -r rtl8xxxu
+    [[ $MODULE ]] || modprobe 8723bu
+}
+
+post_upgrade() {
+    rebuild_module_dependencies
+    check_kernel
+    [[ $MODULE ]] || modprobe -r 8723bu
+    [[ $MODULE ]] || modprobe 8723bu
+}
+
+post_remove() {
+    rebuild_module_dependencies
+    check_kernel
+    [[ $MODULE ]] || modprobe -r 8723bu
+    [[ $MODULE ]] || modprobe rtl8xxxu
+}
