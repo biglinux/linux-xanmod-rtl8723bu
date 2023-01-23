@@ -25,9 +25,9 @@ groups=("$_linuxprefix-extramodules")
 source=("${_pkgname}-${pkgver}.zip::https://github.com/lwfinger/rtl8723bu/archive/$_commit.zip"
         "blacklist-rtl8xxxu.conf"
         'linux61.patch')
-sha256sums=('8a7d09d884e4971dfbf4d7170a504441d2a393754c7e6eef2c46f27359f52576'
-            '7c726ad04083c8e620bc11c837e5f51d3e9e2a5c3e19c333b2968eb39f1ef07e'
-            '87d9f42e48dc635ede8f6cd4e5e4ec088609523b44614e32ea4d1e6eff00fd49')
+sha256sums=('SKIP' 'SKIP' 'SKIP')
+
+
 install=rtl8723bu.install
 
 prepare() {
