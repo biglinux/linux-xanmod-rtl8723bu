@@ -6,13 +6,13 @@
 # Filip <fila pruda com>, Det < nimetonmaili(at)gmail >
 
 _linuxprefix=linux-xanmod
-_extramodules=$(find /usr/lib/modules -type d -iname 6.3.5*xanmod* | rev | cut -d "/" -f1 | rev)
+_extramodules=$(find /usr/lib/modules -type d -iname 6.3.7*xanmod* | rev | cut -d "/" -f1 | rev)
 pkgname=$_linuxprefix-rtl8723bu
 _pkgname=rtl8723bu
 _libname=8723bu
 _commit=d79a676a8d3f0bb6ac8af126689c6ac6869cb6f2
 pkgver=20220818
-pkgrel=63510
+pkgrel=63710
 pkgdesc="A kernel module for Realtek 8723bu network cards"
 url="http://www.realtek.com.tw"
 license=("GPL")
@@ -35,7 +35,7 @@ prepare() {
     patch -p1 -i ../linux61.patch
 }
 build() {
-    _kernver=$(find /usr/lib/modules -type d -iname 6.3.5*xanmod* | rev | cut -d "/" -f1 | rev)
+    _kernver=$(find /usr/lib/modules -type d -iname 6.3.7*xanmod* | rev | cut -d "/" -f1 | rev)
     cd "$_pkgname-$_commit"
     # do not compile with CONCURRENT_MODE
     sed -i 's/EXTRA_CFLAGS += -DCONFIG_CONCURRENT_MODE/#EXTRA_CFLAGS += -DCONFIG_CONCURRENT_MODE/g' Makefile
