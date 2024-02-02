@@ -6,7 +6,7 @@
 # Filip <fila pruda com>, Det < nimetonmaili(at)gmail >
 
 _linuxprefix=linux-xanmod
-_kernver=$(find /usr/lib/modules -type d -iname 6.6.15*xanmod* | rev | cut -d "/" -f1 | rev)
+_kernver="$(cat /usr/src/${_linuxprefix}/version)"
 pkgname=$_linuxprefix-rtl8723bu
 _pkgname=rtl8723bu
 _libname=8723bu
