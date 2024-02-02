@@ -34,6 +34,7 @@ prepare() {
     patch -p1 -i ../linux61.patch
 }
 build() {
+  _kernver="$(cat /usr/src/${_linuxprefix}/version)"
     cd "$_pkgname-$_commit"
     # do not compile with CONCURRENT_MODE
     sed -i 's/EXTRA_CFLAGS += -DCONFIG_CONCURRENT_MODE/#EXTRA_CFLAGS += -DCONFIG_CONCURRENT_MODE/g' Makefile
