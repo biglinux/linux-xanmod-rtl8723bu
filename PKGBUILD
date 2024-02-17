@@ -10,9 +10,9 @@ _kernver="$(cat /usr/src/${_linuxprefix}/version)"
 pkgname=$_linuxprefix-rtl8723bu
 _pkgname=rtl8723bu
 _libname=8723bu
-_commit=d79a676a8d3f0bb6ac8af126689c6ac6869cb6f2
-pkgver=20220818
-pkgrel=66161
+_commit=49cb04d796d44debe965c1597f397f34ae277dbc
+pkgver=20231204
+pkgrel=67510
 pkgdesc="A kernel module for Realtek 8723bu network cards"
 url="http://www.realtek.com.tw"
 license=("GPL")
@@ -23,16 +23,23 @@ builddepends=("$_linuxprefix-headers")
 provides=("$_pkgname=$pkgver")
 groups=("$_linuxprefix-extramodules")
 source=("${_pkgname}-${pkgver}.zip::https://github.com/lwfinger/rtl8723bu/archive/$_commit.zip"
-        "blacklist-rtl8xxxu.conf"
-        'linux61.patch')
-sha256sums=('8a7d09d884e4971dfbf4d7170a504441d2a393754c7e6eef2c46f27359f52576'
-            '7c726ad04083c8e620bc11c837e5f51d3e9e2a5c3e19c333b2968eb39f1ef07e'
-            '87d9f42e48dc635ede8f6cd4e5e4ec088609523b44614e32ea4d1e6eff00fd49')
+        "blacklist-rtl8xxxu.conf")
+sha256sums=('83e2c19c7ad546b01a946805aeb5c0d9795d7a41b5b49b61f358d168346ddad1'
+            '7c726ad04083c8e620bc11c837e5f51d3e9e2a5c3e19c333b2968eb39f1ef07e')
 
 prepare() {
     cd "$_pkgname-$_commit"
-    patch -p1 -i ../linux61.patch
+
+    local src
+    for src in "${source[@]}"; do
+        src="${src%%::*}"
+        src="${src##*/}"
+        [[ $src = *.patch ]] || continue
+        msg2 "Applying patch: $src..."
+        patch -Np1 < "../$src"
+    done
 }
+
 build() {
   _kernver="$(cat /usr/src/${_linuxprefix}/version)"
     cd "$_pkgname-$_commit"
@@ -47,6 +54,8 @@ build() {
 
 package() {
     install -D -m 644 "blacklist-rtl8xxxu.conf" "${pkgdir}/etc/modprobe.d/${_linuxprefix}-blacklist-rtl8xxxu.conf"
+
     install -D -m 644 "$_pkgname-$_commit/$_libname.ko" "$pkgdir/usr/lib/modules/${_kernver}/extramodules/$_libname.ko"
+
     find "$pkgdir" -name '*.ko' -exec gzip -9 {} \;
 }
