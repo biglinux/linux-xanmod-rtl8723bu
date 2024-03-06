@@ -1,16 +1,14 @@
 # Maintainer: Bernhard Landauer <bernhard@manjaro.org>
 # Maintainer: Philip Müller <philm[at]manjaro[dot]org>
-
-# Arch credits:
-# Massimiliano Torromeo <massimiliano.torromeo@gmail.com>
-# Bob Fanger < bfanger(at)gmail >
-# Filip <fila pruda com>, Det < nimetonmaili(at)gmail >
+# Contributor: Massimiliano Torromeo <massimiliano.torromeo@gmail.com>
+# Contributor: Bob Fanger < bfanger(at)gmail >
+# Contributor: Filip <fila pruda com>, Det < nimetonmaili(at)gmail >
 
 _linuxprefix=linux-xanmod
 
 _module=rtl8723bu
 pkgname="${_linuxprefix}-${_module}"
-pkgver=20231204
+pkgver=20240303
 pkgrel=67710
 pkgdesc="Driver for RTL8723BU"
 arch=('x86_64')
@@ -19,7 +17,7 @@ license=('GPL')
 groups=("${_linuxprefix}-extramodules")
 depends=("${_linuxprefix}")
 makedepends=('git' "${_linuxprefix}-headers")
-_commit=49cb04d796d44debe965c1597f397f34ae277dbc  # master
+_commit=af3a408d6399655b0db23c2c8720436ca725ca47  # master
 source=("git+https://github.com/lwfinger/rtl8723bu.git#commit=${_commit}"
         'blacklist-rtl8xxxu.conf')
 sha256sums=('SKIP'
